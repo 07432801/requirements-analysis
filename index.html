@@ -189,12 +189,12 @@
   .todo { color: #b45309; font-size: 13px; }
   .ok { color: #15803d; }
 
-  /* ── 滚动渐入 ── */
-  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
-  .reveal.in { opacity: 1; transform: translateY(0); }
+  /* ── 滚动渐入（JS 门控：仅当脚本成功运行时才隐藏，防内容丢失） ── */
+  .js .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .js .reveal.in { opacity: 1; transform: translateY(0); }
   @media (prefers-reduced-motion: reduce) {
     * { animation: none !important; transition: none !important; }
-    .reveal { opacity: 1; transform: none; }
+    .js .reveal { opacity: 1; transform: none; }
   }
 </style>
 </head>
@@ -431,6 +431,8 @@
 
 <script>
 (function () {
+  // 标记 JS 已启用（渐入效果依赖此标记，脚本出错时内容保持可见）
+  document.documentElement.classList.add('js');
   // 滚动渐入
   var els = document.querySelectorAll('.reveal');
   if ('IntersectionObserver' in window) {
