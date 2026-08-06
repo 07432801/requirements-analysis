@@ -7,118 +7,217 @@
 <style>
   :root {
     --bg: #ffffff;
-    --card: #f8fafc;
+    --card: #ffffff;
     --border: #e2e8f0;
     --text: #1e293b;
     --muted: #64748b;
     --accent: #0284c7;
+    --accent2: #7c3aed;
     --red: #ef4444;
     --amber: #f59e0b;
     --green: #10b981;
+    --shadow: 0 1px 2px rgba(15,23,42,.04), 0 8px 24px rgba(30,58,138,.07);
+    --shadow-lg: 0 4px 12px rgba(15,23,42,.06), 0 20px 48px rgba(30,58,138,.14);
+    --radius: 14px;
   }
   * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
   body {
-    background: var(--bg);
+    background: linear-gradient(135deg, #f6f9fc 0%, #edf3fb 35%, #f4f0fb 75%, #faf7f2 100%);
+    background-attachment: fixed;
     color: var(--text);
     font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
     line-height: 1.7;
-    padding: 40px 20px;
+    padding: 40px 20px 80px;
+    min-height: 100vh;
+    position: relative;
+    overflow-x: hidden;
   }
-  .container { max-width: 1080px; margin: 0 auto; }
-  h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; letter-spacing: 1px; }
-  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
+
+  /* ── 背景装饰光斑 ── */
+  .orb { position: fixed; border-radius: 50%; filter: blur(90px); z-index: 0; pointer-events: none; opacity: .5; }
+  .orb-1 { width: 480px; height: 480px; background: radial-gradient(circle, rgba(56,189,248,.35), transparent 65%); top: -140px; left: -120px; animation: drift 26s ease-in-out infinite alternate; }
+  .orb-2 { width: 420px; height: 420px; background: radial-gradient(circle, rgba(167,139,250,.32), transparent 65%); top: 30%; right: -160px; animation: drift 32s ease-in-out infinite alternate-reverse; }
+  .orb-3 { width: 380px; height: 380px; background: radial-gradient(circle, rgba(52,211,153,.26), transparent 65%); bottom: -120px; left: 30%; animation: drift 38s ease-in-out infinite alternate; }
+  @keyframes drift {
+    0%   { transform: translate(0, 0) scale(1); }
+    50%  { transform: translate(40px, -30px) scale(1.08); }
+    100% { transform: translate(-30px, 24px) scale(.95); }
+  }
+
+  .container { max-width: 1080px; margin: 0 auto; position: relative; z-index: 1; }
+
+  /* ── 顶部 Hero ── */
+  .hero {
+    background: linear-gradient(135deg, #0f2f6b 0%, #2563eb 55%, #7c3aed 100%);
+    color: #fff;
+    border-radius: 20px;
+    padding: 44px 44px 38px;
+    margin-bottom: 36px;
+    box-shadow: 0 16px 40px rgba(37,99,235,.22);
+    position: relative;
+    overflow: hidden;
+    animation: heroIn .8s cubic-bezier(.2,.8,.2,1) both;
+  }
+  .hero::before {
+    content: "";
+    position: absolute; inset: 0;
+    background:
+      radial-gradient(circle at 85% 15%, rgba(255,255,255,.16), transparent 42%),
+      radial-gradient(circle at 12% 90%, rgba(255,255,255,.10), transparent 40%);
+    pointer-events: none;
+  }
+  .hero h1 { font-size: 30px; letter-spacing: 1px; font-weight: 800; position: relative; }
+  .hero .subtitle { color: rgba(255,255,255,.82); font-size: 14px; margin-top: 10px; position: relative; max-width: 860px; }
+  .hero .backlink { display: inline-block; margin-top: 18px; color: #fff; font-size: 13.5px; text-decoration: none; background: rgba(255,255,255,.14); border: 1px solid rgba(255,255,255,.32); padding: 7px 16px; border-radius: 999px; transition: all .25s ease; position: relative; }
+  .hero .backlink:hover { background: rgba(255,255,255,.26); transform: translateY(-1px); box-shadow: 0 6px 16px rgba(0,0,0,.18); }
+  @keyframes heroIn { from { opacity: 0; transform: translateY(-18px); } to { opacity: 1; transform: translateY(0); } }
+
   h2 {
-    font-size: 20px;
-    color: var(--accent);
-    margin: 44px 0 18px;
-    padding-left: 12px;
-    border-left: 4px solid var(--accent);
+    font-size: 21px;
+    color: #0f2f6b;
+    margin: 52px 0 20px;
+    padding-left: 14px;
+    border-left: 4px solid transparent;
+    border-image: linear-gradient(180deg, var(--accent), var(--accent2)) 1;
+    display: flex;
+    align-items: center;
+    gap: 10px;
   }
-  h3 { font-size: 17px; color: #0f172a; margin: 26px 0 12px; }
+  h2 .no {
+    display: inline-flex; align-items: center; justify-content: center;
+    width: 30px; height: 30px; border-radius: 9px; flex-shrink: 0;
+    background: linear-gradient(135deg, var(--accent), var(--accent2));
+    color: #fff; font-size: 14px; font-weight: 700;
+    box-shadow: 0 4px 12px rgba(37,99,235,.28);
+  }
+  h3 { font-size: 17px; color: #0f172a; margin: 30px 0 14px; display: flex; align-items: center; gap: 10px; flex-wrap: wrap; }
+
   .card {
-    background: var(--card);
-    border: 1px solid var(--border);
-    border-radius: 12px;
-    padding: 20px 24px;
+    background: rgba(255,255,255,.86);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.75);
+    border-radius: var(--radius);
+    padding: 22px 26px;
     margin-bottom: 16px;
+    box-shadow: var(--shadow);
+    transition: transform .25s ease, box-shadow .25s ease, border-color .25s ease;
   }
+  .card:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); border-color: rgba(2,132,199,.25); }
   .card p { font-size: 14px; margin-bottom: 8px; }
   .card p:last-child { margin-bottom: 0; }
+
+  /* ── 表格 ── */
   table {
     width: 100%;
-    border-collapse: collapse;
+    border-collapse: separate;
+    border-spacing: 0;
     font-size: 13px;
     margin-bottom: 20px;
-    background: #fff;
-    border: 1px solid #d5dde6;
-    border-radius: 10px;
+    background: rgba(255,255,255,.9);
+    border: 1px solid #dfe7f1;
+    border-radius: 12px;
     overflow: hidden;
+    box-shadow: var(--shadow);
+    transition: box-shadow .25s ease;
   }
+  table:hover { box-shadow: var(--shadow-lg); }
   th {
-    background: #eef2f6;
-    color: #1e293b;
+    background: linear-gradient(135deg, #eef4fd, #f1eefb);
+    color: #1e3a8a;
     font-weight: 600;
     text-align: left;
-    padding: 10px 12px;
-    border: 1px solid #e2e8f0;
+    padding: 11px 12px;
+    border-bottom: 1px solid #dfe7f1;
     white-space: nowrap;
   }
   td {
-    padding: 9px 12px;
-    border: 1px solid #e2e8f0;
+    padding: 10px 12px;
+    border-bottom: 1px solid #eef2f7;
     vertical-align: top;
     color: #334155;
   }
-  tbody tr:nth-child(even) td { background: #fafbfc; }
+  tbody tr { transition: background .18s ease; }
+  tbody tr:nth-child(even) td { background: #f8fafd; }
   tbody tr:hover td { background: #eef6fd; }
+  tbody tr:last-child td { border-bottom: none; }
 
   /* 优先级徽章 */
-  .pri { display: inline-block; font-size: 12px; font-weight: 700; padding: 1px 10px; border-radius: 999px; white-space: nowrap; }
-  .pri-p0 { background: #fee2e2; color: #b91c1c; border: 1px solid #fecaca; }
-  .pri-p1 { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
-  .pri-p2 { background: #dcfce7; color: #15803d; border: 1px solid #bbf7d0; }
+  .pri { display: inline-block; font-size: 12px; font-weight: 700; padding: 2px 11px; border-radius: 999px; white-space: nowrap; box-shadow: inset 0 0 0 1px rgba(0,0,0,.03); }
+  .pri-p0 { background: linear-gradient(135deg, #fee2e2, #fecaca); color: #b91c1c; }
+  .pri-p1 { background: linear-gradient(135deg, #fef3c7, #fde68a); color: #b45309; }
+  .pri-p2 { background: linear-gradient(135deg, #dcfce7, #bbf7d0); color: #15803d; }
 
-  /* 步骤条 */
-  .flow { display: flex; flex-wrap: wrap; gap: 0; align-items: stretch; margin: 10px 0 16px; }
+  .table-scroll { overflow-x: auto; -webkit-overflow-scrolling: touch; border-radius: 12px; margin-bottom: 20px; }
+
+  /* ── 步骤条 ── */
+  .flow { display: flex; flex-wrap: wrap; gap: 0; align-items: stretch; margin: 14px 0 16px; }
   .step {
-    background: #fff; border: 1px solid var(--border); border-radius: 10px;
-    padding: 10px 12px; flex: 1 1 150px; min-width: 150px; position: relative;
+    background: rgba(255,255,255,.88);
+    backdrop-filter: blur(10px);
+    border: 1px solid rgba(255,255,255,.8);
+    border-radius: 12px;
+    padding: 12px 14px;
+    flex: 1 1 150px; min-width: 150px;
+    box-shadow: var(--shadow);
+    transition: transform .22s ease, box-shadow .22s ease;
   }
-  .step .no { font-size: 11px; color: var(--accent); font-weight: 700; }
-  .step .name { font-size: 13px; font-weight: 600; color: #0f172a; margin-top: 2px; }
+  .step:hover { transform: translateY(-3px); box-shadow: var(--shadow-lg); }
+  .step .no { font-size: 11px; color: var(--accent); font-weight: 800; letter-spacing: .5px; }
+  .step .name { font-size: 13.5px; font-weight: 700; color: #0f172a; margin-top: 2px; }
   .step .who { font-size: 11.5px; color: var(--muted); margin-top: 2px; }
-  .step .note { font-size: 11.5px; color: #475569; margin-top: 4px; }
-  .arrow { display: flex; align-items: center; color: #94a3b8; font-size: 18px; padding: 0 6px; font-weight: 700; }
-  @media (max-width: 760px) { .arrow { display: none; } .step { flex: 1 1 100%; } .step { margin-bottom: 8px; } }
+  .step .note { font-size: 11.5px; color: #475569; margin-top: 5px; }
+  .arrow { display: flex; align-items: center; color: #94a3b8; font-size: 18px; padding: 0 7px; font-weight: 700; animation: arrowNudge 1.6s ease-in-out infinite; }
+  @keyframes arrowNudge { 0%,100% { transform: translateX(0); } 50% { transform: translateX(4px); } }
+  @media (max-width: 760px) { .arrow { display: none; } .step { flex: 1 1 100%; margin-bottom: 8px; } }
 
   /* 状态机 */
-  .sm { display: flex; flex-wrap: wrap; gap: 8px; margin: 10px 0 16px; }
-  .sm-item { background: #fff; border: 1px solid var(--border); border-radius: 10px; padding: 8px 14px; font-size: 13px; }
+  .sm { display: flex; flex-wrap: wrap; gap: 10px; margin: 12px 0 16px; }
+  .sm-item {
+    background: rgba(255,255,255,.88); border: 1px solid rgba(255,255,255,.8); border-radius: 12px;
+    padding: 10px 16px; font-size: 13px; box-shadow: var(--shadow);
+    transition: transform .22s ease, box-shadow .22s ease;
+  }
+  .sm-item:hover { transform: translateY(-2px); box-shadow: var(--shadow-lg); }
   .sm-item b { color: #0f172a; }
   .sm-item .cond { color: var(--muted); font-size: 12px; }
 
-  /* 标记 */
-  .tag { display: inline-block; font-size: 11.5px; padding: 1px 8px; border-radius: 6px; margin-right: 4px; }
+  .tag { display: inline-block; font-size: 11.5px; padding: 1px 9px; border-radius: 6px; margin-right: 4px; }
   .tag-confirm { background: #fef3c7; color: #b45309; border: 1px solid #fde68a; }
   .tag-table { background: #e0f2fe; color: #0369a1; border: 1px solid #bae6fd; }
-  .tag-domain { background: #f3e8ff; color: #7e22ce; border: 1px solid #e9d5ff; }
   .todo { color: #b45309; font-size: 13px; }
   .ok { color: #15803d; }
+
+  /* ── 滚动渐入 ── */
+  .reveal { opacity: 0; transform: translateY(18px); transition: opacity .6s ease, transform .6s ease; }
+  .reveal.in { opacity: 1; transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    * { animation: none !important; transition: none !important; }
+    .reveal { opacity: 1; transform: none; }
+  }
 </style>
 </head>
 <body>
+
+<div class="orb orb-1"></div>
+<div class="orb orb-2"></div>
+<div class="orb orb-3"></div>
+
 <div class="container">
 
-  <h1>会计部需求分析 V2</h1>
-  <div class="subtitle">在 V1（6 角色 × 18 条痛点）基础上重组为 6 大主题域 · 补齐优先级 / 关键口径 / 状态机 / 验收标准 / 范围边界 · 与《会计部提成核算 · 表格搭建方案》（11 张表）打通对应关系</div>
-  <p style="margin:-24px 0 24px; font-size:14px;"><a href="https://07432801.github.io/table-structure-design/" style="color:var(--accent); text-decoration:none;">← 返回「会计部提成核算 · 表格搭建方案」</a></p>
+  <header class="hero">
+    <h1>会计部需求分析 V2</h1>
+    <div class="subtitle">在 V1（6 角色 × 18 条痛点）基础上重组为 6 大主题域 · 补齐优先级 / 关键口径 / 状态机 / 验收标准 / 范围边界 · 与《会计部提成核算 · 表格搭建方案》（11 张表）打通对应关系</div>
+    <a class="backlink" href="https://07432801.github.io/table-structure-design/">← 返回「会计部提成核算 · 表格搭建方案」</a>
+  </header>
 
-  <h2>一、结论摘要：实施顺序建议</h2>
-  <div class="card">
+  <h2><span class="no">一</span>结论摘要：实施顺序建议</h2>
+  <div class="card reveal">
     <p><b>先做直接关系「发钱」与「收入确认」的三件事</b>，再做日常运营闭环：</p>
     <p>① <b>提成核算重构</b>（P0）→ ② <b>退单全流程状态化</b>（P0）→ ③ <b>客户欠款状态自动化</b>（P0）→ ④ <b>日行程与交付闭环</b>（P1）→ ⑤ <b>管理看板</b>（P1）→ ⑥ <b>参数与口径治理</b>（贯穿 P0-P2，随①③落地）</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:40px">#</th><th style="width:180px">主题域</th><th style="width:70px">优先级</th><th style="width:110px">涉及角色</th><th>一句话目标</th><th style="width:200px">验收指标（可测）</th></tr></thead>
     <tbody>
       <tr><td>A</td><td>提成核算重构</td><td><span class="pri pri-p0">P0</span></td><td>全员（4 个核算角色）</td><td>日常记事实、规则进参数、金额自动汇总，人人随时可查</td><td>月底核算时间从 2-3 天降到 2 小时内；核算结果零手工录入</td></tr>
@@ -130,13 +229,13 @@
     </tbody>
   </table>
 
-  <h2>二、18 条痛点 → 6 大主题域（含对应表名）</h2>
+  <h2><span class="no">二</span>18 条痛点 → 6 大主题域（含对应表名）</h2>
 
   <h3>主题域 A · 提成核算重构 <span class="pri pri-p0">P0</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：把「算钱」拆成「记数据 + 配参数 + 自动汇总」三层，解决规则复杂、月底才见数、拆分靠手工的问题。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>服务会计</td><td>提成规则复杂（退单率/回款率/单价分级），月中不知道自己拿多少，只能等月底</td><td><span class="tag tag-table">提成核算单</span><span class="tag tag-table">提成明细</span></td></tr>
@@ -148,13 +247,13 @@
       <tr><td>部门经理</td><td>提成核算表太复杂（五表合一），公式报错、手工录入、删除标记，算错难查</td><td><span class="tag tag-table">提成核算单</span><span class="tag tag-table">提成明细</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 每月核算单按账期×人员自动生成，全流程零手工金额录入；核算结果可追溯（每行提成能点回来源记录）；月底核算时长 ≤ 2 小时。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 每月核算单按账期×人员自动生成，全流程零手工金额录入；核算结果可追溯（每行提成能点回来源记录）；月底核算时长 ≤ 2 小时。</p>
 
   <h3>主题域 B · 退单全流程状态化 <span class="pri pri-p0">P0</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：退单从「线下拖着」变成「系统内带时限的状态流程」，财务确认、抄送、留痕完整。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>服务会计</td><td>退单意向收到后没人跟进，线下拖 3 个月才说处理不了，对接客户机会全没了</td><td><span class="tag tag-table">退单申请</span><span class="tag tag-table">退单处理记录</span></td></tr>
@@ -162,13 +261,13 @@
       <tr><td>主管/PL长</td><td>团队退单率考核说不清楚（0.7%→90%、1.2%→80%、超 1.2%→60%），Excel 没有规则约束</td><td><span class="tag tag-table">提成参数</span><span class="tag tag-table">退单申请</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 退单从发起起每个节点带时限（发起→PL长处理→部门长审批→财务确认→收款→改状态），超时自动提醒；首次处理情况（是否上门、上门日期、详情）必填留痕。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 退单从发起起每个节点带时限（发起→PL长处理→部门长审批→财务确认→收款→改状态），超时自动提醒；首次处理情况（是否上门、上门日期、详情）必填留痕。</p>
 
   <h3>主题域 C · 客户欠款状态自动化 <span class="pri pri-p0">P0</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：客户状态由收款与账期自动驱动，欠款名单自动生成、每月自动公布，收入按结算周期确认。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>服务会计</td><td>欠款客户名单每月手工盘点、手工公布，还要一个个登记回来</td><td><span class="tag tag-table">客户</span><span class="tag tag-table">收款记录</span></td></tr>
@@ -176,14 +275,14 @@
       <tr><td>财务/核算</td><td>回款率、退单率取数分散、口径不统一，Excel 公式口径容易改乱</td><td><span class="tag tag-table">客户</span><span class="tag tag-table">提成参数</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 客户状态零人工标记；欠款客户列表按月自动生成并推送；回款率/退单率由系统按统一口径自动计算。</p>
-  <p class="todo">⚠ 口径冲突待确认：V1 两处说法不一致——财务期望写「欠款超过 <b>3 个月</b>不算收入」，客户表备注写「欠费 <b>1 个月</b>标记欠款，<b>第 4 个月</b>起不计提成不算收入」。需管理层明确「标记欠款」与「不计收入」各自的起点月数。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 客户状态零人工标记；欠款客户列表按月自动生成并推送；回款率/退单率由系统按统一口径自动计算。</p>
+  <p class="todo reveal">⚠ 口径冲突待确认：V1 两处说法不一致——财务期望写「欠款超过 <b>3 个月</b>不算收入」，客户表备注写「欠费 <b>1 个月</b>标记欠款，<b>第 4 个月</b>起不计提成不算收入」。需管理层明确「标记欠款」与「不计收入」各自的起点月数。</p>
 
   <h3>主题域 D · 日行程与交付闭环 <span class="pri pri-p1">P1</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：日行程一页看全（当日行程+次日计划+完成情况+总结），目标量与完成记录联动，走访登记与打卡合并。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>服务会计</td><td>走访要单独再登记一遍，同一件事填两遍表</td><td><span class="tag tag-table">订单环节明细</span></td></tr>
@@ -192,36 +291,36 @@
       <tr><td>会计助理</td><td>不知道自己今天完成了多少目标量，做完不点就不算数</td><td><span class="tag tag-table">订单环节明细</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 日行程目标量与交付明细完成量联动，完成情况即时可见；走访打卡一次完成登记，无重复填表。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 日行程目标量与交付明细完成量联动，完成情况即时可见；走访打卡一次完成登记，无重复填表。</p>
 
   <h3>主题域 E · 管理看板 <span class="pri pri-p1">P1</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：汇算清缴、年检、收款、交付进度自动汇总，按 PL/人员看完成率。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>部门经理</td><td>汇算清缴、年检进度靠人工统计，收款/交付完成率不知道</td><td><span class="tag tag-table">订单结算明细</span><span class="tag tag-table">收款记录</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 汇算收款/交付进度看板按 PL、按人员汇总应收/实收/完成率，零人工统计。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 汇算收款/交付进度看板按 PL、按人员汇总应收/实收/完成率，零人工统计。</p>
 
   <h3>主题域 F · 参数与口径治理 <span class="pri pri-p2">P2</span></h3>
-  <div class="card">
+  <div class="card reveal">
     <p><b>目标</b>：提成参数配置表带生效月份（换算系数、单价分级、管理系数、考核阈值全部参数化），调方案只改配置。</p>
   </div>
-  <table>
+  <table class="reveal">
     <thead><tr><th style="width:150px">来源角色</th><th>痛点（V1 原文要点）</th><th style="width:150px">对应表</th></tr></thead>
     <tbody>
       <tr><td>主管/PL长</td><td>退单率、回款率考核阈值散落在表格批注里，调一次方案改一次公式</td><td><span class="tag tag-table">提成参数</span></td></tr>
     </tbody>
   </table>
-  <p><b>验收标准</b>：<span class="ok">✓</span> 所有考核阈值、系数、单价集中在参数表，带生效月份；历史月份按当时参数核算，参数变更可追溯。</p>
+  <p class="reveal"><b>验收标准</b>：<span class="ok">✓</span> 所有考核阈值、系数、单价集中在参数表，带生效月份；历史月份按当时参数核算，参数变更可追溯。</p>
 
-  <h2>三、核心业务流程图</h2>
+  <h2><span class="no">三</span>核心业务流程图</h2>
 
   <h3>流程 1 · 退单全流程（带时限状态机）</h3>
-  <div class="flow">
+  <div class="flow reveal">
     <div class="step"><div class="no">STEP 1</div><div class="name">服务会计发起退单</div><div class="who">服务会计</div><div class="note">退单意向 → 发起申请（原因/客户/金额）</div></div>
     <div class="arrow">→</div>
     <div class="step"><div class="no">STEP 2</div><div class="name">PL长处理</div><div class="who">PL长</div><div class="note">首次处理情况必填：是否上门/日期/详情</div></div>
@@ -235,7 +334,7 @@
   <p style="font-size:13px; color:var(--muted);">每个节点设时限，超时自动提醒责任人及上级；当月发起退单即不计入正常单量。</p>
 
   <h3>流程 2 · 客户服务状态流转（欠款自动化）</h3>
-  <div class="flow">
+  <div class="flow reveal">
     <div class="step"><div class="no">状态 A</div><div class="name">服务中</div><div class="who">默认</div><div class="note">正常服务、正常收款</div></div>
     <div class="arrow">→</div>
     <div class="step"><div class="no">触发</div><div class="name">欠费标记</div><div class="who">系统自动</div><div class="note">欠费满 1 个月 → 标记欠款（口径待确认）</div></div>
@@ -247,7 +346,7 @@
   <p style="font-size:13px; color:var(--muted);">状态流转由「收款记录 × 账期」自动驱动；跨账期收款为「收前期款提成」的补发依据。</p>
 
   <h3>流程 3 · 提成核算闭环</h3>
-  <div class="flow">
+  <div class="flow reveal">
     <div class="step"><div class="no">日常</div><div class="name">记事实数据</div><div class="who">全员</div><div class="note">订单/环节交付/结算交付/收款/退单，做完即登记</div></div>
     <div class="arrow">→</div>
     <div class="step"><div class="no">配置</div><div class="name">参数表</div><div class="who">管理层/财务</div><div class="note">换算系数/单价/管理系数/考核阈值，带生效月份</div></div>
@@ -257,8 +356,8 @@
     <div class="step"><div class="no">结果</div><div class="name">审核发放 + 随时可查</div><div class="who">财务/全员</div><div class="note">月度累计提成实时可见，核算可追溯</div></div>
   </div>
 
-  <h2>四、关键口径定义（需管理层逐条确认）</h2>
-  <table>
+  <h2><span class="no">四</span>关键口径定义（需管理层逐条确认）</h2>
+  <table class="reveal">
     <thead><tr><th style="width:130px">口径项</th><th style="width:280px">建议定义</th><th>依据 / 冲突点</th></tr></thead>
     <tbody>
       <tr><td>欠款月数起点</td><td>「标记欠款」= 最近一期应收未收满 1 个月；「不计提成/收入」= 第 4 个月起（自最近一期应收账期起算）</td><td><span class="tag tag-confirm">待确认</span>V1 内部冲突：财务写「超 3 个月」，客户表备注写「第 4 个月起」</td></tr>
@@ -270,9 +369,9 @@
     </tbody>
   </table>
 
-  <h2>五、状态机说明</h2>
+  <h2><span class="no">五</span>状态机说明</h2>
   <h3>客户状态（5 态）</h3>
-  <div class="sm">
+  <div class="sm reveal">
     <div class="sm-item"><b>服务中</b><div class="cond">默认状态，正常计提成</div></div>
     <div class="sm-item"><b>结转</b><div class="cond">合同到期启用新合同</div></div>
     <div class="sm-item"><b>欠款</b><div class="cond">由收款×账期自动驱动，第 4 个月起不计提成</div></div>
@@ -280,15 +379,16 @@
     <div class="sm-item"><b>退单</b><div class="cond">退单流程全部走完才置为退单</div></div>
   </div>
   <h3>退单申请状态机</h3>
-  <div class="sm">
+  <div class="sm reveal">
     <div class="sm-item"><b>待确认</b><div class="cond">服务会计发起</div></div>
     <div class="sm-item"><b>处理中</b><div class="cond">PL长处理、留痕</div></div>
     <div class="sm-item"><b>已退</b><div class="cond">财务确认欠款并收款/结清</div></div>
     <div class="sm-item"><b>已完成</b><div class="cond">抄送相关部门，计入退单率</div></div>
   </div>
 
-  <h2>六、角色权限矩阵</h2>
-  <table>
+  <h2><span class="no">六</span>角色权限矩阵</h2>
+  <div class="table-scroll">
+  <table class="reveal">
     <thead><tr><th style="width:150px">功能</th><th>服务会计</th><th>记账会计</th><th>会计助理</th><th>PL长</th><th>部门长</th><th>财务</th><th>管理层</th></tr></thead>
     <tbody>
       <tr><td>录订单 / 环节交付</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td class="ok">✓</td><td>—</td><td>—</td><td>—</td></tr>
@@ -302,9 +402,10 @@
       <tr><td>核算单审核</td><td>—</td><td>—</td><td>—</td><td>—</td><td class="ok">✓</td><td class="ok">✓</td><td>终审</td></tr>
     </tbody>
   </table>
+  </div>
 
-  <h2>七、范围边界（不做清单，需管理层确认）</h2>
-  <div class="card">
+  <h2><span class="no">七</span>范围边界（不做清单，需管理层确认）</h2>
+  <div class="card reveal">
     <p><span class="tag tag-confirm">待确认</span> 以下为建议边界，请管理层逐条勾选：</p>
     <p>1. 不做独立 APP，仅 Web 端（含移动端适配页面）</p>
     <p>2. 不直接对接银行流水 / 电子税务局 / 开票系统，收款与报税仍以人工录入为主</p>
@@ -313,8 +414,8 @@
     <p>5. 不做跨部门（销售/市场）数据打通，本期只覆盖会计部</p>
   </div>
 
-  <h2>八、遗留问题与下一步</h2>
-  <table>
+  <h2><span class="no">八</span>遗留问题与下一步</h2>
+  <table class="reveal">
     <thead><tr><th style="width:40px">#</th><th style="width:260px">问题</th><th>待谁确认</th></tr></thead>
     <tbody>
       <tr><td>1</td><td>「欠款第 4 个月」与「欠款超 3 个月」的起点口径统一</td><td>财务 + 管理层</td></tr>
@@ -327,5 +428,26 @@
   </table>
 
 </div>
+
+<script>
+(function () {
+  // 滚动渐入
+  var els = document.querySelectorAll('.reveal');
+  if ('IntersectionObserver' in window) {
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (e) {
+        if (e.isIntersecting) {
+          e.target.classList.add('in');
+          io.unobserve(e.target);
+        }
+      });
+    }, { threshold: 0.08, rootMargin: '0px 0px -40px 0px' });
+    els.forEach(function (el) { io.observe(el); });
+  } else {
+    els.forEach(function (el) { el.classList.add('in'); });
+  }
+  // 表头滚动吸顶（角色权限矩阵等宽表在移动端横向滚动容器内不做吸顶）
+})();
+</script>
 </body>
 </html>
