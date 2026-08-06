@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>会计部需求分析</title>
+<style>
+  :root {
+    --bg: #ffffff;
+    --card: #f8fafc;
+    --border: #e2e8f0;
+    --text: #1e293b;
+    --muted: #64748b;
+    --accent: #0284c7;
+    --red: #ef4444;
+    --amber: #f59e0b;
+    --green: #10b981;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Microsoft YaHei", "PingFang SC", "Segoe UI", sans-serif;
+    line-height: 1.7;
+    padding: 40px 20px;
+  }
+  .container { max-width: 1080px; margin: 0 auto; }
+  h1 { font-size: 28px; color: #0f172a; margin-bottom: 8px; letter-spacing: 1px; }
+  .subtitle { color: var(--muted); font-size: 14px; margin-bottom: 36px; }
+  h2 {
+    font-size: 20px;
+    color: var(--accent);
+    margin: 44px 0 18px;
+    padding-left: 12px;
+    border-left: 4px solid var(--accent);
+  }
+  h3 { font-size: 17px; color: #0f172a; margin: 26px 0 12px; }
+  .card {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    padding: 20px 24px;
+    margin-bottom: 16px;
+  }
+  .card p { font-size: 14px; margin-bottom: 8px; }
+  .card p:last-child { margin-bottom: 0; }
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-bottom: 20px;
+    background: #fff;
+    border: 1px solid #d5dde6;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  th {
+    background: #eef2f6;
+    color: #1e293b;
+    font-weight: 600;
+    text-align: left;
+    padding: 10px 12px;
+    border: 1px solid #e2e8f0;
+    white-space: nowrap;
+  }
+  td {
+    padding: 9px 12px;
+    border: 1px solid #e2e8f0;
+    vertical-align: top;
+    color: #334155;
+  }
+  tbody tr:nth-child(even) td { background: #fafbfc; }
+  tbody tr:hover td { background: #eef6fd; }
+  .role-title {
+    font-size: 17px;
+    font-weight: 700;
+    color: #0f172a;
+    margin: 26px 0 12px;
+    padding-bottom: 10px;
+    border-bottom: 2px solid var(--border);
+  }
+  .th-pain { background: #fef2f2 !important; color: #dc2626 !important; }
+  .th-now { background: #fffbeb !important; color: #b45309 !important; }
+  .th-want { background: #ecfdf5 !important; color: #047857 !important; }
+</style>
+</head>
+<body>
+<div class="container">
+
+  <h1>会计部需求分析</h1>
+  <div class="subtitle">基于业务现状识别痛点 · 明确期望目标 · 按痛点确定优先级 · 识别现状与目标差距 · 制定解决方案</div>
+  <p style="margin:-24px 0 24px; font-size:14px;"><a href="https://07432801.github.io/table-structure-design/" style="color:var(--accent); text-decoration:none;">← 返回「会计部提成核算 · 表格搭建方案」</a></p>
+
+  <h2>角色困扰 · 现状 · 期望</h2>
+
+  <div class="role-title">服务会计</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>退单意向收到后没人跟进，线下拖着不处理，3 个月后才说"处理不了"，对接客户的机会全没了</td><td>1. 退单流程靠线下沟通，服务会计收到退单意向后"按着不动"，总觉得自己能处理，一拖就是几个月，流程没有时限约束</td><td>1. 系统内退单流程带状态机与时限：发起→PL长处理→部门长审批→财务确认欠款→收款→改状态，第一次处理情况（是否上门、上门日期、详细情况）必填留痕</td></tr>
+      <tr><td>欠款客户名单每月要手工盘点、手工公布，还得一个个登记回来</td><td>2. 客户状态靠人工标记（"你姐那个是手动的"），欠款状态不自动，欠款客户列表每月手工整理</td><td>2. 客户状态由收款与账期自动驱动：欠款第 4 个月起自动变为欠款状态，欠款客户列表自动生成并每月公布</td></tr>
+      <tr><td>走访要单独再登记一遍，同一件事填两遍表</td><td>3. 走访记录与日行程分开登记，走到客户处还要再创建一次记录，多跳一个界面</td><td>3. 走访登记与打卡合并：走访记录直接关联客户，打卡附件一并上传，不用重复建记录</td></tr>
+      <tr><td>提成规则复杂（退单率、回款率、单价分级），自己算不清楚本月拿多少</td><td>4. 提成按 Excel 公式算，中途无法知道自己目前赚了多少，只能等到月底看结果</td><td>4. 核算单按账期×人员自动汇总，随时可查本月累计提成与交付金额</td></tr>
+    </tbody>
+  </table>
+
+  <div class="role-title">记账会计</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>做账完成率考核不公平：服务会计每月完结就能拿提成，记账会计要把所有事做完才有</td><td>1. 提成表里"做账提成/粘贴提成"是横向双列，交接期做账和装订分两个人时，10 块钱要分两列拆，公式复杂</td><td>1. 环节交付明细按"订单×账期月份×环节×执行人"记录，做账与粘贴人不同各记一行，提成自动按环节计算</td></tr>
+      <tr><td>做账与粘贴是两个环节、可能两个人做，提成拆分靠 Excel 双列手工算</td><td>2. 做账完成率没有纳入服务会计连带考核，服务会计不督促，记账会计做完的账没人跟进完善</td><td>2. 做账完成率纳入核算单，服务会计承担连带考核责任</td></tr>
+      <tr><td>账务完成率统计不了：谁做的、做了多少、完成率多少，系统里看不到</td><td>3. 交付环节靠人工在 Excel 里勾选登记，与订单、账期没有关联，无法自动归集</td><td>3. 环节完成量自动汇总到核算单的"本月交付金额"，完成率实时可查</td></tr>
+    </tbody>
+  </table>
+
+  <div class="role-title">会计主管 / PL长</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>管理提成计算复杂：团队量、管理系数（主管 2.5 / 经理 3）、退单率考核阈值，全是手工公式</td><td>1. 管理提成在 Excel 里用 PL 合计数手工算，公式引用复杂，"我实在看不懂，我只要看公式"</td><td>1. 提成参数配置表带生效月份：换算系数、单价分级、管理系数、考核阈值全部参数化，调方案只改配置</td></tr>
+      <tr><td>团队退单率考核说不清楚：0.7% 计发 90%、1.2% 计发 80%、超 1.2% 计发 60%，Excel 里没有规则约束</td><td>2. 退单率、回款率考核阈值散落在表格批注里，没有参数化，调一次方案改一次公式</td><td>2. 核算单自动汇总团队量与管理提成，PL 长按团队维度查看</td></tr>
+      <tr><td>带人提成（徒弟单 1 元/家给原带会计、1 元/家给部门经理）靠手工录</td><td>3. 团队签单业绩人均 1.5 万的门槛与 0.8%/1% 奖金比例没有落表</td><td>3. 带人提成、签单奖金按参数规则自动计算，仅限组内、作为奖金发放</td></tr>
+    </tbody>
+  </table>
+
+  <div class="role-title">财务 / 核算</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>退单确认后要人工修改退单状态，欠款金额要手工确认</td><td>1. 财务确认欠款、认款、付款全靠线下，退单状态修改依赖人工</td><td>1. 退单申请带财务确认环节：确认是否欠款、欠款金额，认款/付款后状态自动流转</td></tr>
+      <tr><td>欠款超过 3 个月不算收入，这个判断靠人记、靠人标</td><td>2. 收入结转按账期，欠款判断没有系统规则（"登进好这个月就没有"），客户挂着欠款但收入照算</td><td>2. 收款记录与账期关联，欠款状态由收款驱动，收入按结算周期确认</td></tr>
+      <tr><td>回款率、退单率取数分散，口径不统一</td><td>3. 回款率 =（服务中+结转）/（服务中+结转+欠款）非换算量，退单率 = 退单/（服务中+结转+欠款），都在 Excel 里，公式口径容易改乱</td><td>3. 回款率、退单率由系统按状态机自动计算，看板实时展示</td></tr>
+    </tbody>
+  </table>
+
+  <div class="role-title">部门经理 / 管理层</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>看不到每个人今天的行程、完成情况，日行程"闭环闭不上，而且也不是那么直观"</td><td>1. 日行程、总结、读书分享分开填，没有合到一个页面，目标量没有量化，实际完成靠自觉</td><td>1. 日行程含当日行程+次日计划+完成情况+总结，一页看全，按人/按PL汇总完成率</td></tr>
+      <tr><td>提成核算表太复杂（"我一直都想把表简单化"），月底核算靠人工统计</td><td>2. 五表合一的核算表公式报错、手工录入、删除标记，算错难查</td><td>2. 提成三层拆分：日常记事实、规则进参数表、金额自动汇总，核算单可追溯</td></tr>
+      <tr><td>汇算清缴、年检进度靠人工统计，收款/交付完成率不知道</td><td>3. 汇算报价表、事务所跟进表各自为政，收款进度、交付进度无法自动汇总</td><td>3. 汇算收款/交付进度看板：按 PL、按人员汇总应收/实收/完成率</td></tr>
+    </tbody>
+  </table>
+
+  <div class="role-title">会计助理 / 新人</div>
+  <table>
+    <thead><tr><th class="th-pain" style="width:26%">困扰（痛点）</th><th class="th-now" style="width:34%">现状（问题如何产生的）</th><th class="th-want">期望（怎么解决）</th></tr></thead>
+    <tbody>
+      <tr><td>凭证粘贴、装订、报税做了就忘，还要单独再做一个表格登记，费时间</td><td>1. 做账报税完成后要单独在另一张表登记，多一步操作，"太费时间了"</td><td>1. 交付执行明细直接关联订单与环节，做完点一下即登记，自动汇总到当天计划</td></tr>
+      <tr><td>不知道自己今天完成了多少目标量</td><td>2. 目标量（如报税 30 家）没有和完成记录关联，做完不点就不算数</td><td>2. 日行程的目标量与交付明细完成量联动，完成情况即时可见</td></tr>
+    </tbody>
+  </table>
+
+</div>
+</body>
+</html>
